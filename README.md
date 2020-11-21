@@ -9,7 +9,8 @@ The exp used in the plug-in is collected online, and security issues are not gua
 
 # [Chinese version](https://github.com/pandasec888/taowu-cobalt-strike/tree/master)
 
-Thanks to [vcarus](https://twitter.com/h4ltorg) and [ZIzA](https://github.com/XZVB12) for English translation support
+Thanks to [vcarus](https://twitter.com/h4ltorg) and [ZIzA](https://github.com/XZVB12) for English translation support  
+If you find translation mistake, please inform !
 
 # Function introduction
 ![](img/xx.png)
