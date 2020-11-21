@@ -1,0 +1,13 @@
+##############################
+#                            #
+#                            #
+#                            #
+#       Xway.cn@panda        #
+#                            #
+#                            #
+#                            #
+##############################
+menu "About" {
+    item("&Xway.cn@panda", { url_open("https://github.com/pandasec888/taowu-cobalt-strike"); });
+        }
+
