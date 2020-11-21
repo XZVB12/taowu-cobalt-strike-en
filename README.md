@@ -7,7 +7,7 @@ Plugins for Сobalt Strike 3.x and Cobalt Strike 4.x
 
 The exp used in the plug-in is collected online, and security issues are not guaranteed. Please be sure to conduct related security reviews independently !
 
-# [Chinese-version](https://github.com/pandasec888/taowu-cobalt-strike/tree/master)
+# [Chinese version](https://github.com/pandasec888/taowu-cobalt-strike/tree/master)
 
 Thanks to [vcarus](https://twitter.com/h4ltorg) and [ZIzA](https://github.com/XZVB12) for English translation support
 
