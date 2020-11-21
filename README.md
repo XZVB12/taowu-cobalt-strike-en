@@ -5,7 +5,7 @@
 
 Plugins for Сobalt Strike 3.x and Cobalt Strike 4.x
 
-The exp used in the plug-in is collected online, and security issues are not guaranteed. Please be sure to conduct related security reviews independently !
+The exp used in the plug-in is collected online, and security issues are not guaranteed. Please be sure to conduct related security reviews independently !  
 Distributed under license GPLv3
 
 # [Chinese version](https://github.com/pandasec888/taowu-cobalt-strike/tree/master)
